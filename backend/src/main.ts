@@ -1,6 +1,7 @@
 process.title = 'rw-subpage';
 
 import cookieParser from 'cookie-parser';
+import { Request, Response, NextFunction } from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { utilities as nestWinstonModuleUtilities, WinstonModule } from 'nest-winston';
@@ -72,6 +73,18 @@ async function bootstrap(): Promise<void> {
     app.disable('x-powered-by');
 
     app.set('trust proxy', config.getOrThrow('TRUST_PROXY'));
+
+    app.use('/internal/health', (req: Request, res: Response, next: NextFunction) => {
+        const ip = req.socket.remoteAddress ?? '';
+        const isLoopback = ip === '127.0.0.1' || ip === '::1' || ip === '::ffff:127.0.0.1';
+
+        if (isLoopback && !req.headers['x-forwarded-for'] && req.path === '/') {
+            res.status(200).type('text/plain').send('OK');
+            return;
+        }
+
+        next();
+    });
 
     if (!isDevelopment()) {
         app.use(proxyCheckMiddleware);
