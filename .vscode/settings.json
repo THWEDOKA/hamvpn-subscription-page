@@ -1,4 +1,5 @@
 {
+  "js/ts.tsdk.path": "./backend/node_modules/typescript/lib",
   "cssVariables.lookupFiles": [
     "**/*.css",
     "**/*.scss",
