@@ -2,6 +2,7 @@ FROM node:24.18-trixie-slim AS frontend-build
 WORKDIR /opt/app
 
 COPY frontend/package*.json ./
+COPY frontend/.npmrc ./
 RUN npm ci --prefer-offline --no-audit --no-fund
 
 COPY frontend/ .
