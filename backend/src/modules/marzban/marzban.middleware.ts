@@ -12,7 +12,10 @@ export class MarzbanMiddleware implements NestMiddleware {
         res: Response,
         next: NextFunction,
     ) {
-        const marzbanShortUuid = req.params.shortUuid;
+        const marzbanShortUuidParam = req.params.shortUuid;
+        const marzbanShortUuid = Array.isArray(marzbanShortUuidParam)
+            ? marzbanShortUuidParam[0]
+            : marzbanShortUuidParam;
 
         const resolvedShortUuid = await this.marzbanService.resolveShortUuid(
             marzbanShortUuid,

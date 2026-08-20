@@ -12,7 +12,8 @@ export class ClientTypeMiddleware implements NestMiddleware {
     );
 
     use(req: Request, res: Response, next: NextFunction) {
-        const clientType = req.params.clientType;
+        const clientTypeParam = req.params.clientType;
+        const clientType = Array.isArray(clientTypeParam) ? clientTypeParam[0] : clientTypeParam;
 
         if (clientType && !this.allowedClientTypes.has(clientType)) {
             this.logger.error(`Invalid client type: ${clientType}`);
