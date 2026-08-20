@@ -7,7 +7,8 @@ export const theme = createTheme({
     cursorType: 'pointer',
     fontFamily:
         'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
-    fontFamilyMonospace: 'Fira Mono, monospace',
+    fontFamilyMonospace:
+        'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
     breakpoints: {
         xs: '25em',
         sm: '30em',
@@ -91,7 +92,8 @@ export const theme = createTheme({
     autoContrast: true,
     luminanceThreshold: 0.3,
     headings: {
-        fontFamily: 'Unbounded, Vazirmatn, Apple Color Emoji, Noto Sans SC, sans-serif',
+        fontFamily:
+            'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
         fontWeight: '600'
     },
     defaultRadius: 'lg'

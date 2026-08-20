@@ -73,7 +73,6 @@
     min-height: 32px;
     display: inline-flex;
     align-items: center;
-    gap: 8px;
     flex: 0 0 auto;
     padding: 0 11px;
     color: var(--ham-signal-mint);
@@ -92,14 +91,6 @@
     color: var(--ham-signal-red);
     background: rgba(255, 111, 139, 0.07);
     box-shadow: inset 0 0 0 1px rgba(255, 111, 139, 0.18);
-}
-
-.statusDot {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: currentColor;
-    box-shadow: 0 0 10px currentColor;
 }
 
 .metric {

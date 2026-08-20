@@ -4,7 +4,7 @@ import {
     ButtonVariant,
     Card,
     Group,
-    NativeSelect,
+    Select,
     Stack,
     Text,
     Title,
@@ -194,9 +194,15 @@ export const InstallationGuideConnector = (props: IProps) => {
                     </Stack>
 
                     {availablePlatforms.length > 1 && (
-                        <NativeSelect
+                        <Select
+                            allowDeselect={false}
                             aria-label={labels.device}
                             className={classes.platformSelect}
+                            classNames={{
+                                dropdown: classes.platformDropdown,
+                                input: classes.platformInput,
+                                option: classes.platformOption
+                            }}
                             data={availablePlatforms.map((opt) => ({
                                 value: opt.value,
                                 label: opt.label
@@ -216,11 +222,11 @@ export const InstallationGuideConnector = (props: IProps) => {
                                     }}
                                 />
                             }
-                            onChange={(event) => {
+                            onChange={(value) => {
+                                if (!value) return
+
                                 vibrate([80])
-                                const value = event.target
-                                    .value as unknown as TSubscriptionPagePlatformKey
-                                setSelectedPlatform(value)
+                                setSelectedPlatform(value as TSubscriptionPagePlatformKey)
                                 setSelectedAppIndex(0)
                             }}
                             radius="md"
@@ -273,7 +279,6 @@ export const InstallationGuideConnector = (props: IProps) => {
                                             setSelectedAppIndex(index)
                                         }}
                                     >
-                                        {app.featured && <span className={classes.featuredBadge} />}
                                         {hasIcon && (
                                             <span
                                                 className={clsx(

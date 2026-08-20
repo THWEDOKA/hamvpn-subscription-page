@@ -18,7 +18,7 @@
 - Depth: dark surface shifts with quiet inset rings; no dramatic shadows.
 - Spacing: 4px base unit; 12px micro, 16–24px component, 24–32px section rhythm.
 - Radius: 11–14px controls, 16px nested cards, 20px primary surfaces.
-- Type: Unbounded for short product headings; Montserrat for readable body copy.
+- Type: Montserrat throughout the interface, including headings and technical values.
 - Hierarchy: 12px tracked eyebrow, 22–30px focal title, 14px body, 12px metadata.
 - Motion: 140–220ms transform/opacity transitions; respect reduced motion.
 
@@ -26,6 +26,7 @@
 
 - Subscription hero: one truthful state, relative expiration, account/date/traffic metrics.
 - Connection rail: Device → App → Connection, compact and always visible.
-- App selector: 48–50px controls, violet selected state, mint recommendation marker.
+- Device selector: dark custom dropdown, violet selected state, no native white menu.
+- App selector: 48–50px controls, violet selected state, text-only recommendation marker.
 - Installation step: numbered 42px tile, step label, concise title, body and primary action.
 - Utility action: 44px minimum target; text on desktop, icon-only on narrow mobile screens.

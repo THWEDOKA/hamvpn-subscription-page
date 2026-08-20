@@ -109,7 +109,6 @@ export const SubscriptionInfoExpandedWidget = ({ isMobile }: IProps) => {
                     </Group>
 
                     <Box className={classes.statusPill} data-state={state}>
-                        <Box className={classes.statusDot} />
                         <Text fw={650} size="xs">
                             {statusText}
                         </Text>

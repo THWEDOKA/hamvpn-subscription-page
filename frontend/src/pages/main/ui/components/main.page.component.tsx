@@ -118,7 +118,6 @@ export const MainPageComponent = ({ isMobile, platform }: IMainPageComponentProp
                     )}
 
                     <Box className={classes.privacyNote}>
-                        <Box className={classes.privacyMarker} />
                         <Stack gap={3}>
                             <Text className={classes.privacyTitle} fw={650} size="sm">
                                 {pageCopy.privacyTitle}

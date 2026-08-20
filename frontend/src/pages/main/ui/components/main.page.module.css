@@ -27,24 +27,11 @@
 }
 
 .privacyNote {
-    display: flex;
-    align-items: flex-start;
-    gap: 12px;
     padding: 14px 16px;
     color: var(--ham-ink-secondary);
     border-radius: var(--mantine-radius-lg);
     background: rgba(139, 92, 246, 0.06);
     box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.11);
-}
-
-.privacyMarker {
-    width: 8px;
-    height: 8px;
-    margin-top: 6px;
-    flex: 0 0 auto;
-    border-radius: 50%;
-    background: var(--ham-signal-mint);
-    box-shadow: 0 0 0 5px rgba(80, 227, 194, 0.08);
 }
 
 .privacyTitle {
