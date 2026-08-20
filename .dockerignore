@@ -1,0 +1,10 @@
+.git
+.github
+.vscode
+.interface-design
+preview
+**/node_modules
+**/dist
+**/.env
+*.log
+stats.html

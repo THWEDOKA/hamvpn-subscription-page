@@ -1,3 +1,4 @@
+import { Box, Card, Group, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core'
 import {
     IconAlertCircle,
     IconArrowsUpDown,
@@ -6,101 +7,98 @@ import {
     IconUserScan,
     IconX
 } from '@tabler/icons-react'
-import { Card, Group, SimpleGrid, Stack, Text, ThemeIcon, Title } from '@mantine/core'
 
-import {
-    formatDate,
-    getColorGradientSolid,
-    getExpirationTextUtil
-} from '@shared/utils/config-parser'
-import { InfoBlockShared } from '@shared/ui/info-block/info-block.shared'
-import { useSubscription } from '@entities/subscription-info-store'
 import { useTranslation } from '@shared/hooks'
+import { formatDate, getExpirationTextUtil } from '@shared/utils/config-parser'
+
+import { useSubscription } from '@entities/subscription-info-store'
+
+import classes from './subscription-info-expanded.module.css'
 
 interface IProps {
     isMobile: boolean
 }
 
+interface IMetricProps {
+    icon: React.ReactNode
+    label: string
+    value: string
+}
+
+const Metric = ({ icon, label, value }: IMetricProps) => (
+    <Box className={classes.metric}>
+        <Group align="flex-start" gap="sm" wrap="nowrap">
+            <Box className={classes.metricIcon}>{icon}</Box>
+            <Stack gap={3} style={{ minWidth: 0 }}>
+                <Text className={classes.metricLabel} size="xs">
+                    {label}
+                </Text>
+                <Text className={classes.metricValue} fw={650} size="sm">
+                    {value}
+                </Text>
+            </Stack>
+        </Group>
+    </Box>
+)
+
 export const SubscriptionInfoExpandedWidget = ({ isMobile }: IProps) => {
     const { t, currentLang, baseTranslations } = useTranslation()
     const subscription = useSubscription()
-
     const { user } = subscription
 
-    const getStatusAndIcon = (): {
-        color: string
-        icon: React.ReactNode
-        status: string
-    } => {
-        if (user.userStatus === 'ACTIVE' && user.daysLeft > 0) {
-            return {
-                color: 'teal',
-                icon: <IconCheck size={isMobile ? 18 : 22} />,
-                status: t(baseTranslations.active)
-            }
-        }
-        if (
-            (user.userStatus === 'ACTIVE' && user.daysLeft === 0) ||
-            (user.daysLeft >= 0 && user.daysLeft <= 3)
-        ) {
-            return {
-                color: 'orange',
-                icon: <IconAlertCircle size={isMobile ? 18 : 22} />,
-                status: t(baseTranslations.active)
-            }
-        }
-        return {
-            color: 'red',
-            icon: <IconX size={isMobile ? 18 : 22} />,
-            status: t(baseTranslations.inactive)
-        }
-    }
+    const isActive = user.userStatus === 'ACTIVE' && user.daysLeft >= 0
+    const isExpiringSoon = isActive && user.daysLeft <= 3
 
-    const statusInfo = getStatusAndIcon()
-    const gradientColor = getColorGradientSolid(statusInfo.color)
+    const copy =
+        currentLang === 'ru'
+            ? {
+                  eyebrow: 'ВАША ПОДПИСКА',
+                  active: 'Подписка активна',
+                  expiring: 'Подписка скоро закончится',
+                  inactive: 'Подписка не активна',
+                  account: 'Аккаунт',
+                  validUntil: 'Действует до',
+                  traffic: 'Использовано трафика'
+              }
+            : {
+                  eyebrow: 'YOUR SUBSCRIPTION',
+                  active: 'Subscription is active',
+                  expiring: 'Subscription expires soon',
+                  inactive: 'Subscription is inactive',
+                  account: 'Account',
+                  validUntil: 'Valid until',
+                  traffic: 'Traffic usage'
+              }
+
+    const state = isExpiringSoon ? 'warning' : isActive ? 'active' : 'inactive'
+    const title = isExpiringSoon ? copy.expiring : isActive ? copy.active : copy.inactive
+    const statusText = isActive ? t(baseTranslations.active) : t(baseTranslations.inactive)
+    const StateIcon = isExpiringSoon ? IconAlertCircle : isActive ? IconCheck : IconX
+    const bandwidthValue = `${user.trafficUsed} / ${user.trafficLimit === '0' ? '∞' : user.trafficLimit}`
 
     return (
-        <Card p={{ base: 'sm', xs: 'md', sm: 'lg', md: 'xl' }} radius="lg">
-            <Stack gap={isMobile ? 'sm' : 'md'}>
-                <Group gap="sm" justify="space-between">
-                    <Group
-                        gap={isMobile ? 'xs' : 'sm'}
-                        style={{ minWidth: 0, flex: 1 }}
-                        wrap="nowrap"
-                    >
+        <Card className={`${classes.root} ${classes[state]}`} p={0} radius="xl">
+            <Box className={classes.glow} />
+            <Stack className={classes.content} gap={isMobile ? 'lg' : 'xl'}>
+                <Group align="flex-start" justify="space-between" wrap="nowrap">
+                    <Group align="flex-start" gap={isMobile ? 'sm' : 'md'} wrap="nowrap">
                         <ThemeIcon
-                            color={statusInfo.color}
+                            className={classes.stateIcon}
                             radius="xl"
-                            size={isMobile ? 36 : 44}
-                            style={{
-                                background: gradientColor.background,
-                                border: gradientColor.border,
-                                boxShadow: gradientColor.boxShadow,
-                                flexShrink: 0
-                            }}
+                            size={isMobile ? 44 : 52}
                             variant="light"
                         >
-                            {statusInfo.icon}
+                            <StateIcon size={isMobile ? 22 : 26} stroke={1.9} />
                         </ThemeIcon>
 
-                        <Stack gap={2} style={{ minWidth: 0, flex: 1 }}>
-                            <Title
-                                c="white"
-                                fw={600}
-                                order={5}
-                                style={{
-                                    overflow: 'hidden',
-                                    textOverflow: 'ellipsis',
-                                    whiteSpace: 'nowrap'
-                                }}
-                            >
-                                {user.username}
+                        <Stack gap={5} style={{ minWidth: 0 }}>
+                            <Text className={classes.eyebrow} fw={700} size="xs">
+                                {copy.eyebrow}
+                            </Text>
+                            <Title className={classes.title} order={2}>
+                                {title}
                             </Title>
-                            <Text
-                                c={user.daysLeft === 0 ? 'red' : 'dimmed'}
-                                fw={600}
-                                size={isMobile ? 'xs' : 'sm'}
-                            >
+                            <Text className={classes.expiration} size="sm">
                                 {getExpirationTextUtil(
                                     user.expiresAt,
                                     currentLang,
@@ -109,45 +107,30 @@ export const SubscriptionInfoExpandedWidget = ({ isMobile }: IProps) => {
                             </Text>
                         </Stack>
                     </Group>
+
+                    <Box className={classes.statusPill} data-state={state}>
+                        <Box className={classes.statusDot} />
+                        <Text fw={650} size="xs">
+                            {statusText}
+                        </Text>
+                    </Box>
                 </Group>
 
-                <SimpleGrid cols={{ base: 2, xs: 2, sm: 2 }} spacing="xs" verticalSpacing="xs">
-                    <InfoBlockShared
-                        color="blue"
-                        icon={<IconUserScan size={16} />}
-                        title={t(baseTranslations.name)}
+                <SimpleGrid cols={{ base: 1, xs: 3 }} spacing="xs" verticalSpacing="xs">
+                    <Metric
+                        icon={<IconUserScan size={18} stroke={1.8} />}
+                        label={copy.account}
                         value={user.username}
                     />
-
-                    <InfoBlockShared
-                        color={user.userStatus === 'ACTIVE' ? 'green' : 'red'}
-                        icon={
-                            user.userStatus === 'ACTIVE' ? (
-                                <IconCheck size={16} />
-                            ) : (
-                                <IconX size={16} />
-                            )
-                        }
-                        title={t(baseTranslations.status)}
-                        value={
-                            user.userStatus === 'ACTIVE'
-                                ? t(baseTranslations.active)
-                                : t(baseTranslations.inactive)
-                        }
-                    />
-
-                    <InfoBlockShared
-                        color="red"
-                        icon={<IconCalendar size={16} />}
-                        title={t(baseTranslations.expires)}
+                    <Metric
+                        icon={<IconCalendar size={18} stroke={1.8} />}
+                        label={copy.validUntil}
                         value={formatDate(user.expiresAt, currentLang, baseTranslations)}
                     />
-
-                    <InfoBlockShared
-                        color="yellow"
-                        icon={<IconArrowsUpDown size={16} />}
-                        title={t(baseTranslations.bandwidth)}
-                        value={`${user.trafficUsed} / ${user.trafficLimit === '0' ? '∞' : user.trafficLimit}`}
+                    <Metric
+                        icon={<IconArrowsUpDown size={18} stroke={1.8} />}
+                        label={copy.traffic}
+                        value={bandwidthValue}
                     />
                 </SimpleGrid>
             </Stack>

@@ -1,0 +1,159 @@
+.root {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+    color: var(--ham-ink-primary);
+    background:
+        linear-gradient(145deg, rgba(139, 92, 246, 0.1), transparent 46%),
+        var(--ham-surface-raised);
+    box-shadow: inset 0 0 0 1px var(--ham-line-soft);
+}
+
+.root:hover {
+    box-shadow: inset 0 0 0 1px var(--ham-line-emphasis);
+}
+
+.content {
+    position: relative;
+    z-index: 1;
+    padding: 24px;
+}
+
+.glow {
+    position: absolute;
+    z-index: 0;
+    top: -90px;
+    right: -70px;
+    width: 280px;
+    height: 220px;
+    pointer-events: none;
+    border-radius: 50%;
+    background: rgba(139, 92, 246, 0.2);
+    filter: blur(80px);
+}
+
+.stateIcon {
+    flex: 0 0 auto;
+    color: var(--ham-signal-mint);
+    background: rgba(80, 227, 194, 0.09);
+    box-shadow: inset 0 0 0 1px rgba(80, 227, 194, 0.24);
+}
+
+.warning .stateIcon {
+    color: var(--ham-signal-amber);
+    background: rgba(255, 190, 92, 0.09);
+    box-shadow: inset 0 0 0 1px rgba(255, 190, 92, 0.24);
+}
+
+.inactive .stateIcon {
+    color: var(--ham-signal-red);
+    background: rgba(255, 111, 139, 0.09);
+    box-shadow: inset 0 0 0 1px rgba(255, 111, 139, 0.24);
+}
+
+.eyebrow {
+    color: var(--ham-brand-lavender);
+    letter-spacing: 0.14em;
+}
+
+.title {
+    color: var(--ham-ink-primary);
+    font-size: clamp(1.35rem, 3vw, 1.9rem);
+    line-height: 1.2;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+}
+
+.expiration {
+    color: var(--ham-ink-secondary);
+    font-weight: 500;
+}
+
+.statusPill {
+    min-height: 32px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    flex: 0 0 auto;
+    padding: 0 11px;
+    color: var(--ham-signal-mint);
+    border-radius: 999px;
+    background: rgba(80, 227, 194, 0.07);
+    box-shadow: inset 0 0 0 1px rgba(80, 227, 194, 0.18);
+}
+
+.statusPill[data-state='warning'] {
+    color: var(--ham-signal-amber);
+    background: rgba(255, 190, 92, 0.07);
+    box-shadow: inset 0 0 0 1px rgba(255, 190, 92, 0.18);
+}
+
+.statusPill[data-state='inactive'] {
+    color: var(--ham-signal-red);
+    background: rgba(255, 111, 139, 0.07);
+    box-shadow: inset 0 0 0 1px rgba(255, 111, 139, 0.18);
+}
+
+.statusDot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: currentColor;
+    box-shadow: 0 0 10px currentColor;
+}
+
+.metric {
+    min-width: 0;
+    padding: 14px;
+    border-radius: var(--mantine-radius-lg);
+    background: var(--ham-surface-inset);
+    box-shadow: inset 0 0 0 1px var(--ham-line-soft);
+}
+
+.metricIcon {
+    width: 34px;
+    height: 34px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--ham-brand-lavender);
+    border-radius: 11px;
+    background: rgba(139, 92, 246, 0.08);
+}
+
+.metricLabel {
+    overflow: hidden;
+    color: var(--ham-ink-muted);
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.metricValue {
+    overflow: hidden;
+    color: var(--ham-ink-primary);
+    font-variant-numeric: tabular-nums;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 30em) {
+    .content {
+        padding: 18px;
+    }
+
+    .statusPill {
+        min-width: 32px;
+        width: 32px;
+        padding: 0;
+        justify-content: center;
+    }
+
+    .statusPill p {
+        display: none;
+    }
+
+    .metric {
+        padding: 12px 13px;
+    }
+}

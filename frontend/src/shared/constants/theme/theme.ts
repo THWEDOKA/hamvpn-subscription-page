@@ -20,21 +20,21 @@ export const theme = createTheme({
     },
     scale: 1,
     fontSmoothing: true,
-    focusRing: 'never',
+    focusRing: 'auto',
     white: '#ffffff',
     black: '#24292f',
     colors: {
         dark: [
-            '#c9d1d9',
-            '#b1bac4',
-            '#8b949e',
-            '#6e7681',
-            '#484f58',
-            '#30363d',
-            '#21262d',
-            '#161b22',
-            '#0d1117',
-            '#010409'
+            '#f8f6ff',
+            '#d5d0e2',
+            '#9f98ae',
+            '#766f84',
+            '#524b60',
+            '#342d41',
+            '#241d30',
+            '#161020',
+            '#100c18',
+            '#0b0811'
         ],
 
         blue: [
@@ -86,13 +86,13 @@ export const theme = createTheme({
             '#471700'
         ]
     },
-    primaryShade: 8,
-    primaryColor: 'cyan',
+    primaryShade: 5,
+    primaryColor: 'violet',
     autoContrast: true,
     luminanceThreshold: 0.3,
     headings: {
         fontFamily: 'Unbounded, Vazirmatn, Apple Color Emoji, Noto Sans SC, sans-serif',
         fontWeight: '600'
     },
-    defaultRadius: 'md'
+    defaultRadius: 'lg'
 })

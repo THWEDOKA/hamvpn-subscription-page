@@ -1,3 +1,42 @@
+.root {
+    background: var(--ham-surface-inset);
+    box-shadow: inset 0 0 0 1px var(--ham-line-soft);
+}
+
 .root:hover {
-    background: rgba(255, 255, 255, 0.04);
+    background: var(--ham-surface-inset);
+    box-shadow: inset 0 0 0 1px var(--ham-line-emphasis);
+}
+
+.stepNumber {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    flex: 0 0 auto;
+    color: var(--ham-brand-lavender);
+    font-family: Unbounded, sans-serif;
+    font-size: 0.86rem;
+    font-weight: 700;
+    border-radius: 14px;
+    background: rgba(139, 92, 246, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.16);
+}
+
+.stepMeta {
+    color: var(--ham-brand-lavender);
+    letter-spacing: 0.12em;
+}
+
+@media (max-width: 30em) {
+    .stepNumber {
+        width: 38px;
+        height: 38px;
+        border-radius: 12px;
+    }
+
+    .root button,
+    .root a {
+        min-height: 44px;
+    }
 }

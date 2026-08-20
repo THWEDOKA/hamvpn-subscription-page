@@ -1,3 +1,12 @@
+FROM node:24.18-trixie-slim AS frontend-build
+WORKDIR /opt/app
+
+COPY frontend/package*.json ./
+RUN npm ci --prefer-offline --no-audit --no-fund
+
+COPY frontend/ .
+RUN npm run start:build
+
 FROM node:24.18-trixie-slim AS backend-build
 WORKDIR /opt/app
 
@@ -15,11 +24,14 @@ RUN npm run build \
 FROM node:24.18-trixie-slim
 WORKDIR /opt/app
 
-LABEL org.opencontainers.image.title="Remnawave Subscription Page"
-LABEL org.opencontainers.image.description="Remnawave Subscription Page"
-LABEL org.opencontainers.image.url="https://github.com/remnawave/subscription-page"
-LABEL org.opencontainers.image.source="https://github.com/remnawave/subscription-page"
-LABEL org.opencontainers.image.vendor="Remnawave"
+ARG VCS_REF=unknown
+
+LABEL org.opencontainers.image.title="HAMVPN Subscription Page"
+LABEL org.opencontainers.image.description="HAMVPN interface for Remnawave Subscription Page"
+LABEL org.opencontainers.image.url="https://github.com/THWEDOKA/hamvpn-subscription-page"
+LABEL org.opencontainers.image.source="https://github.com/THWEDOKA/hamvpn-subscription-page"
+LABEL org.opencontainers.image.revision="${VCS_REF}"
+LABEL org.opencontainers.image.vendor="HAMVPN"
 LABEL org.opencontainers.image.licenses="AGPL-3.0"
 LABEL org.opencontainers.image.documentation="https://docs.rw"
 
@@ -28,7 +40,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends curl && rm -rf 
 
 COPY --from=backend-build /opt/app/dist ./dist
 
-COPY frontend/dist/ ./frontend/
+COPY --from=frontend-build /opt/app/dist/ ./frontend/
 COPY backend/ecosystem.config.js ./
 COPY backend/docker-entrypoint.sh ./
 

@@ -1,0 +1,88 @@
+.logoShell {
+    width: 44px;
+    height: 44px;
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    overflow: hidden;
+    border-radius: 14px;
+    background: rgba(139, 92, 246, 0.1);
+    box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.14);
+}
+
+.logoShell img {
+    width: 58px;
+    height: 58px;
+    object-position: 50% 15%;
+}
+
+.brandSubtitle {
+    color: var(--ham-ink-tertiary);
+    font-weight: 500;
+    letter-spacing: 0.02em;
+}
+
+.mainContainer {
+    padding-bottom: 48px;
+}
+
+.privacyNote {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 14px 16px;
+    color: var(--ham-ink-secondary);
+    border-radius: var(--mantine-radius-lg);
+    background: rgba(139, 92, 246, 0.06);
+    box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.11);
+}
+
+.privacyMarker {
+    width: 8px;
+    height: 8px;
+    margin-top: 6px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--ham-signal-mint);
+    box-shadow: 0 0 0 5px rgba(80, 227, 194, 0.08);
+}
+
+.privacyTitle {
+    color: var(--ham-ink-primary);
+}
+
+.privacyText {
+    color: var(--ham-ink-tertiary);
+    line-height: 1.55;
+    text-wrap: pretty;
+}
+
+.footer {
+    padding: 8px 0 12px;
+}
+
+@media (max-width: 30em) {
+    .logoShell {
+        width: 40px;
+        height: 40px;
+        border-radius: 12px;
+    }
+
+    .logoShell img {
+        width: 52px;
+        height: 52px;
+    }
+
+    .brandSubtitle {
+        display: none;
+    }
+
+    .mainContainer {
+        padding-top: 20px;
+        padding-bottom: 32px;
+    }
+
+    .privacyNote {
+        padding: 13px 14px;
+    }
+}

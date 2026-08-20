@@ -1,8 +1,8 @@
 .modalContent {
-    background: rgba(22, 27, 35, 0.95);
+    background: rgba(19, 14, 29, 0.97);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(196, 181, 253, 0.14);
 }
 
 .modalHeader {
@@ -14,7 +14,54 @@
     color: white;
 }
 
-.actionIcon {
-    background: rgba(255, 255, 255, 0.02);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+.actionIcon,
+.utilityButton {
+    min-height: 44px;
+    color: var(--ham-ink-secondary);
+    background: var(--ham-control-bg);
+    border: 1px solid var(--ham-control-line);
+    transition:
+        transform 140ms cubic-bezier(0.23, 1, 0.32, 1),
+        color 180ms cubic-bezier(0.23, 1, 0.32, 1),
+        border-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.actionIcon:hover,
+.utilityButton:hover {
+    color: var(--ham-ink-primary);
+    background: var(--ham-control-hover);
+    border-color: rgba(196, 181, 253, 0.22);
+}
+
+.actionIcon:active,
+.utilityButton:active {
+    transform: scale(0.97);
+}
+
+.actionIcon:focus-visible,
+.utilityButton:focus-visible {
+    outline: 2px solid var(--ham-brand-violet);
+    outline-offset: 2px;
+}
+
+.utilityLabel {
+    white-space: nowrap;
+}
+
+@media (max-width: 30em) {
+    .actionIcon,
+    .utilityButton {
+        width: 44px;
+        min-width: 44px;
+        padding-inline: 0;
+    }
+
+    .utilityLabel {
+        display: none;
+    }
+
+    .actionIcon :global(.mantine-Button-section),
+    .utilityButton :global(.mantine-Button-section) {
+        margin-inline: 0;
+    }
 }

@@ -136,6 +136,8 @@ fsd-high-level-dependencies.html
 
 docker-compose-local.yml
 
+/preview/
+
 /frontend/node_modules
 /backend/dev_frontend
 

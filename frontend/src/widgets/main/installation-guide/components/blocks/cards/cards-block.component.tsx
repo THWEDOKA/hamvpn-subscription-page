@@ -1,7 +1,6 @@
-import { Card, Group, Stack, Text, Title } from '@mantine/core'
+import { Box, Card, Group, Stack, Text, Title } from '@mantine/core'
 
-import { getColorGradient, getLocalizedText } from '@shared/utils/config-parser'
-import { ThemeIconShared } from '@shared/ui'
+import { getLocalizedText } from '@shared/utils/config-parser'
 
 import { IBlockRendererProps } from '../renderer-block.interface'
 import classes from './cards-block.module.css'
@@ -10,14 +9,11 @@ export const CardsBlockRenderer = ({
     blocks,
     isMobile,
     currentLang,
-    renderBlockButtons,
-    getIconFromLibrary
+    renderBlockButtons
 }: IBlockRendererProps) => {
     return (
         <Stack gap="sm">
             {blocks.map((block, index) => {
-                const gradientStyle = getColorGradient(block.svgIconColor)
-
                 return (
                     <Card
                         className={classes.root}
@@ -26,14 +22,13 @@ export const CardsBlockRenderer = ({
                         radius="lg"
                     >
                         <Group align="flex-start" gap={isMobile ? 'sm' : 'md'} wrap="nowrap">
-                            <ThemeIconShared
-                                getIconFromLibrary={getIconFromLibrary}
-                                gradientStyle={gradientStyle}
-                                isMobile={isMobile}
-                                svgIconColor={block.svgIconColor}
-                                svgIconKey={block.svgIconKey}
-                            />
+                            <Box className={classes.stepNumber}>{index + 1}</Box>
                             <Stack gap={isMobile ? 'xs' : 'sm'} style={{ flex: 1, minWidth: 0 }}>
+                                <Text className={classes.stepMeta} fw={700} size="xs">
+                                    {currentLang === 'ru'
+                                        ? `ШАГ ${index + 1}`
+                                        : `STEP ${index + 1}`}
+                                </Text>
                                 <Title
                                     c="white"
                                     fw={600}
