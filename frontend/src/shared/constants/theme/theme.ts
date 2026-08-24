@@ -7,8 +7,7 @@ export const theme = createTheme({
     cursorType: 'pointer',
     fontFamily:
         'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
-    fontFamilyMonospace:
-        'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
+    fontFamilyMonospace: 'Fira Mono, monospace',
     breakpoints: {
         xs: '25em',
         sm: '30em',
@@ -21,21 +20,21 @@ export const theme = createTheme({
     },
     scale: 1,
     fontSmoothing: true,
-    focusRing: 'auto',
+    focusRing: 'never',
     white: '#ffffff',
     black: '#24292f',
     colors: {
         dark: [
-            '#f8f6ff',
-            '#d5d0e2',
-            '#9f98ae',
-            '#766f84',
-            '#524b60',
-            '#342d41',
-            '#241d30',
-            '#161020',
-            '#100c18',
-            '#0b0811'
+            '#c9d1d9',
+            '#b1bac4',
+            '#8b949e',
+            '#6e7681',
+            '#484f58',
+            '#30363d',
+            '#21262d',
+            '#161b22',
+            '#0d1117',
+            '#010409'
         ],
 
         blue: [
@@ -87,14 +86,13 @@ export const theme = createTheme({
             '#471700'
         ]
     },
-    primaryShade: 5,
-    primaryColor: 'violet',
+    primaryShade: 8,
+    primaryColor: 'cyan',
     autoContrast: true,
     luminanceThreshold: 0.3,
     headings: {
-        fontFamily:
-            'Montserrat, Vazirmatn, Apple Color Emoji, Noto Sans SC, Twemoji Country Flags, sans-serif',
+        fontFamily: 'Unbounded, Vazirmatn, Apple Color Emoji, Noto Sans SC, sans-serif',
         fontWeight: '600'
     },
-    defaultRadius: 'lg'
+    defaultRadius: 'md'
 })

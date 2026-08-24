@@ -1,24 +1,6 @@
-## HAMVPN Subscription Page
+## Remnawave Subscription Page
 
-HAMVPN interface for the open-source Remnawave Subscription Page. It keeps the upstream API and
-client compatibility while providing a branded, device-first connection flow.
-
-### Build
-
-```bash
-docker build --build-arg VCS_REF="$(git rev-parse HEAD)" -t hamvpn/subscription-page:latest .
-```
-
-### Design principles
-
-- truthful subscription status before technical details;
-- three-step device connection flow;
-- 44px minimum touch targets and visible keyboard focus;
-- low-cost motion with reduced-motion support;
-- no credentials or production configuration in the image.
-
-Based on [Remnawave Subscription Page](https://github.com/remnawave/subscription-page) and
-distributed under AGPL-3.0.
+Learn more about Remnawave [here](https://docs.rw/).
 
 # Contributors
 

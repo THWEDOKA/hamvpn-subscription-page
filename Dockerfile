@@ -28,7 +28,7 @@ WORKDIR /opt/app
 ARG VCS_REF=unknown
 
 LABEL org.opencontainers.image.title="HAMVPN Subscription Page"
-LABEL org.opencontainers.image.description="HAMVPN interface for Remnawave Subscription Page"
+LABEL org.opencontainers.image.description="Remnawave Subscription Page with the default interface"
 LABEL org.opencontainers.image.url="https://github.com/THWEDOKA/hamvpn-subscription-page"
 LABEL org.opencontainers.image.source="https://github.com/THWEDOKA/hamvpn-subscription-page"
 LABEL org.opencontainers.image.revision="${VCS_REF}"

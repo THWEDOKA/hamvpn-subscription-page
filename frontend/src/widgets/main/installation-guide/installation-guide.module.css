@@ -1,118 +1,3 @@
-.root {
-    background: var(--ham-surface-raised);
-    box-shadow: inset 0 0 0 1px var(--ham-line-soft);
-}
-
-.root:hover {
-    box-shadow: inset 0 0 0 1px var(--ham-line-emphasis);
-}
-
-.eyebrow {
-    color: var(--ham-brand-lavender);
-    letter-spacing: 0.14em;
-}
-
-.title {
-    color: var(--ham-ink-primary);
-    font-size: clamp(1.25rem, 3vw, 1.65rem);
-    letter-spacing: -0.03em;
-    text-wrap: balance;
-}
-
-.subtitle {
-    max-width: 560px;
-    color: var(--ham-ink-tertiary);
-    line-height: 1.55;
-    text-wrap: pretty;
-}
-
-.platformInput {
-    min-height: 44px;
-    color: var(--ham-ink-primary);
-    font-weight: 600;
-    background: var(--ham-control-bg);
-    border-color: var(--ham-control-line);
-}
-
-.platformInput:focus,
-.platformInput:focus-visible,
-.platformInput[data-expanded] {
-    border-color: var(--ham-brand-violet);
-    box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.17);
-}
-
-.platformDropdown {
-    padding: 6px;
-    color: var(--ham-ink-primary);
-    background: #161020;
-    border-color: var(--ham-line-emphasis);
-    box-shadow:
-        0 18px 48px rgba(4, 2, 8, 0.42),
-        inset 0 0 0 1px rgba(230, 224, 255, 0.025);
-}
-
-.platformOption {
-    min-height: 42px;
-    color: var(--ham-ink-secondary);
-    font-weight: 600;
-    border-radius: 9px;
-}
-
-.platformOption:hover,
-.platformOption[data-combobox-selected] {
-    color: var(--ham-ink-primary);
-    background: rgba(139, 92, 246, 0.16);
-}
-
-.journey {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    overflow: hidden;
-    border-radius: var(--mantine-radius-lg);
-    background: var(--ham-surface-inset);
-    box-shadow: inset 0 0 0 1px var(--ham-line-soft);
-}
-
-.journeyStep {
-    min-width: 0;
-    min-height: 46px;
-    display: flex;
-    align-items: center;
-    gap: 9px;
-    padding: 8px 12px;
-    color: var(--ham-ink-secondary);
-}
-
-.journeyStep + .journeyStep {
-    border-left: 1px solid var(--ham-line-soft);
-}
-
-.journeyNumber {
-    width: 24px;
-    height: 24px;
-    display: grid;
-    place-items: center;
-    flex: 0 0 auto;
-    color: var(--ham-brand-lavender);
-    font-size: 0.72rem;
-    font-weight: 750;
-    border-radius: 8px;
-    background: rgba(139, 92, 246, 0.11);
-    box-shadow: inset 0 0 0 1px rgba(196, 181, 253, 0.12);
-}
-
-.sectionLabel {
-    margin-bottom: 10px;
-    color: var(--ham-ink-primary);
-}
-
-.recommended {
-    padding: 3px 7px;
-    color: var(--ham-brand-lavender);
-    border-radius: 999px;
-    background: rgba(139, 92, 246, 0.11);
-}
-
 .appsGrid {
     display: flex;
     flex-wrap: wrap;
@@ -129,28 +14,17 @@
     height: 48px;
     min-width: 0;
     overflow: hidden;
-    background: var(--ham-control-bg);
-    border: 1px solid var(--ham-control-line);
-    border-radius: var(--mantine-radius-lg);
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    border-left: 3px solid rgba(255, 255, 255, 0.08);
+    border-radius: var(--mantine-radius-md);
     cursor: pointer;
-    transition:
-        transform 140ms cubic-bezier(0.23, 1, 0.32, 1),
-        background-color 180ms cubic-bezier(0.23, 1, 0.32, 1),
-        border-color 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.2s ease;
 }
 
 .appButton:hover {
-    background: var(--ham-control-hover);
-    border-color: rgba(196, 181, 253, 0.18);
-}
-
-.appButton:active {
-    transform: scale(0.98);
-}
-
-.appButton:focus-visible {
-    outline: 2px solid var(--ham-brand-violet);
-    outline-offset: 2px;
+    background: rgba(255, 255, 255, 0.05);
+    border-left-color: rgba(255, 255, 255, 0.25);
 }
 
 .appButton:hover .bgIcon {
@@ -159,13 +33,16 @@
 
 .appButtonActive,
 .appButtonActive:hover {
-    background: rgba(139, 92, 246, 0.13);
-    border-color: rgba(196, 181, 253, 0.3);
-    box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.06);
+    background: linear-gradient(90deg, rgba(34, 211, 238, 0.12) 0%, rgba(34, 211, 238, 0.04) 100%);
+    border-color: rgba(34, 211, 238, 0.2);
+    border-left-color: var(--mantine-color-cyan-5);
+    box-shadow:
+        inset 4px 0 12px -4px rgba(34, 211, 238, 0.3),
+        0 0 12px rgba(34, 211, 238, 0.1);
 }
 
 .appButtonActive .appName {
-    color: var(--ham-ink-primary);
+    color: var(--mantine-color-cyan-3);
 }
 
 .appButtonActive .bgIcon,
@@ -182,7 +59,7 @@
     height: 56px;
     opacity: 0.25;
     pointer-events: none;
-    transition: opacity 180ms cubic-bezier(0.23, 1, 0.32, 1);
+    transition: all 0.3s ease;
     mask-image: linear-gradient(to right, transparent 0%, black 40%, black 100%);
     -webkit-mask-image: linear-gradient(to right, transparent 0%, black 40%, black 100%);
 }
@@ -206,47 +83,28 @@
 .appName {
     position: relative;
     z-index: 1;
-    color: var(--ham-ink-secondary);
+    color: rgba(255, 255, 255, 0.85);
     font-size: var(--mantine-font-size-md);
     font-weight: 600;
     white-space: nowrap;
 }
 
-@media (max-width: 30em) {
-    .journeyStep {
-        flex-direction: column;
-        justify-content: center;
-        gap: 5px;
-        padding: 8px 4px;
-        text-align: center;
-    }
+.featuredBadge {
+    position: absolute;
+    top: 4px;
+    left: 4px;
+    width: 8px;
+    height: 8px;
+    display: inline-block;
+    opacity: 1;
+    z-index: 0;
+    border-radius: 50%;
+    background: #efbf04;
 
-    .journeyStep p {
-        max-width: 100%;
-        overflow: hidden;
-        font-size: 0.67rem;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-    }
-
-    .platformSelect {
-        width: 100%;
-    }
-
-    .appsGrid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .appButton {
-        width: 100%;
-        min-height: 50px;
-    }
+    box-shadow: 0 0 6px rgba(239, 191, 4, 0.6);
 }
 
-@media (prefers-reduced-motion: reduce) {
-    .appButton,
-    .bgIcon {
-        transition: none;
-    }
+.appButtonActive .featuredBadge {
+    opacity: 0.8;
+    box-shadow: 0 0 8px rgba(239, 191, 4, 0.4);
 }

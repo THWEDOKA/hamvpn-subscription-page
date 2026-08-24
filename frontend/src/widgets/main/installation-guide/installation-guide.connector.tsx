@@ -1,33 +1,31 @@
 import {
+    TSubscriptionPageAppConfig,
+    TSubscriptionPageButtonConfig,
+    TSubscriptionPagePlatformKey
+} from '@remnawave/subscription-page-types'
+import {
     Box,
     Button,
     ButtonVariant,
     Card,
     Group,
-    Select,
+    NativeSelect,
     Stack,
-    Text,
     Title,
     UnstyledButton
 } from '@mantine/core'
-import { useClipboard } from '@mantine/hooks'
 import { notifications } from '@mantine/notifications'
-import {
-    TSubscriptionPageAppConfig,
-    TSubscriptionPageButtonConfig,
-    TSubscriptionPagePlatformKey
-} from '@remnawave/subscription-page-types'
-import clsx from 'clsx'
+import { useClipboard } from '@mantine/hooks'
 import { useState } from 'react'
+import clsx from 'clsx'
 
-import { useTranslation } from '@shared/hooks'
-import { getIconFromLibrary } from '@shared/utils/config-parser'
 import { constructSubscriptionUrl } from '@shared/utils/construct-subscription-url'
-import { TemplateEngine } from '@shared/utils/template-engine'
-import { vibrate } from '@shared/utils/vibrate'
-
-import { useAppConfig } from '@entities/app-config-store'
 import { useSubscription } from '@entities/subscription-info-store'
+import { getIconFromLibrary } from '@shared/utils/config-parser'
+import { TemplateEngine } from '@shared/utils/template-engine'
+import { useAppConfig } from '@entities/app-config-store'
+import { vibrate } from '@shared/utils/vibrate'
+import { useTranslation } from '@shared/hooks'
 
 import { IBlockRendererProps } from './components/blocks/renderer-block.interface'
 import classes from './installation-guide.module.css'
@@ -46,33 +44,8 @@ export const InstallationGuideConnector = (props: IProps) => {
 
     const { t, currentLang, baseTranslations } = useTranslation()
 
-    const labels =
-        currentLang === 'ru'
-            ? {
-                  eyebrow: 'ПОДКЛЮЧЕНИЕ ЗА 3 ШАГА',
-                  title: 'Подключите это устройство',
-                  subtitle:
-                      'Выберите систему и удобное приложение — ссылка добавится автоматически.',
-                  device: 'Устройство',
-                  app: 'Приложение',
-                  connection: 'Подключение',
-                  chooseApp: 'Выберите приложение',
-                  recommended: 'рекомендуем'
-              }
-            : {
-                  eyebrow: 'CONNECT IN 3 STEPS',
-                  title: 'Connect this device',
-                  subtitle:
-                      'Choose your system and preferred app — the subscription will be added automatically.',
-                  device: 'Device',
-                  app: 'App',
-                  connection: 'Connection',
-                  chooseApp: 'Choose an app',
-                  recommended: 'recommended'
-              }
-
     const { platforms, svgLibrary } = useAppConfig()
-    const { copy: copyToClipboard } = useClipboard({ timeout: 2_000 })
+    const { copy } = useClipboard({ timeout: 2_000 })
     const subscription = useSubscription()
 
     const [selectedAppIndex, setSelectedAppIndex] = useState(0)
@@ -122,7 +95,7 @@ export const InstallationGuideConnector = (props: IProps) => {
             case 'copyButton': {
                 if (!formattedUrl) return
 
-                copyToClipboard(formattedUrl)
+                copy(formattedUrl)
                 notifications.show({
                     title: t(baseTranslations.linkCopied),
                     message: t(baseTranslations.linkCopiedToClipboard),
@@ -178,31 +151,15 @@ export const InstallationGuideConnector = (props: IProps) => {
     const getIcon = (iconKey: string) => getIconFromLibrary(iconKey, svgLibrary)
 
     return (
-        <Card className={classes.root} p={{ base: 'md', xs: 'lg', sm: 'xl' }} radius="xl">
-            <Stack gap="lg">
-                <Group align="flex-end" gap="md" justify="space-between">
-                    <Stack gap={5}>
-                        <Text className={classes.eyebrow} fw={700} size="xs">
-                            {labels.eyebrow}
-                        </Text>
-                        <Title className={classes.title} fw={600} order={3}>
-                            {labels.title}
-                        </Title>
-                        <Text className={classes.subtitle} size="sm">
-                            {labels.subtitle}
-                        </Text>
-                    </Stack>
+        <Card p={{ base: 'sm', xs: 'md', sm: 'lg', md: 'xl' }} radius="lg">
+            <Stack gap="md">
+                <Group gap="sm" justify="space-between">
+                    <Title c="white" fw={600} order={4}>
+                        {t(baseTranslations.installationGuideHeader)}
+                    </Title>
 
                     {availablePlatforms.length > 1 && (
-                        <Select
-                            allowDeselect={false}
-                            aria-label={labels.device}
-                            className={classes.platformSelect}
-                            classNames={{
-                                dropdown: classes.platformDropdown,
-                                input: classes.platformInput,
-                                option: classes.platformOption
-                            }}
+                        <NativeSelect
                             data={availablePlatforms.map((opt) => ({
                                 value: opt.value,
                                 label: opt.label
@@ -222,44 +179,23 @@ export const InstallationGuideConnector = (props: IProps) => {
                                     }}
                                 />
                             }
-                            onChange={(value) => {
-                                if (!value) return
-
+                            onChange={(event) => {
                                 vibrate([80])
-                                setSelectedPlatform(value as TSubscriptionPagePlatformKey)
+                                const value = event.target
+                                    .value as unknown as TSubscriptionPagePlatformKey
+                                setSelectedPlatform(value)
                                 setSelectedAppIndex(0)
                             }}
                             radius="md"
                             size="sm"
                             value={selectedPlatform}
-                            w={168}
+                            w={150}
                         />
                     )}
                 </Group>
 
-                <Box className={classes.journey}>
-                    {[labels.device, labels.app, labels.connection].map((label, index) => (
-                        <Box className={classes.journeyStep} key={label}>
-                            <Box className={classes.journeyNumber}>{index + 1}</Box>
-                            <Text fw={650} size="xs">
-                                {label}
-                            </Text>
-                        </Box>
-                    ))}
-                </Box>
-
                 {platformApps.length > 0 && (
                     <Box>
-                        <Group className={classes.sectionLabel} gap="xs">
-                            <Text fw={650} size="sm">
-                                {labels.chooseApp}
-                            </Text>
-                            {selectedApp?.featured && (
-                                <Text className={classes.recommended} fw={650} size="xs">
-                                    {labels.recommended}
-                                </Text>
-                            )}
-                        </Group>
                         <div className={classes.appsGrid}>
                             {platformApps.map((app: TSubscriptionPageAppConfig, index: number) => {
                                 const isActive = index === selectedAppIndex
@@ -267,7 +203,6 @@ export const InstallationGuideConnector = (props: IProps) => {
 
                                 return (
                                     <UnstyledButton
-                                        aria-pressed={isActive}
                                         className={clsx(
                                             classes.appButton,
                                             isActive && classes.appButtonActive,
@@ -279,6 +214,7 @@ export const InstallationGuideConnector = (props: IProps) => {
                                             setSelectedAppIndex(index)
                                         }}
                                     >
+                                        {app.featured && <span className={classes.featuredBadge} />}
                                         {hasIcon && (
                                             <span
                                                 className={clsx(

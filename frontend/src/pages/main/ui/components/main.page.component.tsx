@@ -1,5 +1,6 @@
-import { Box, Center, Container, Group, Image, Stack, Text, Title } from '@mantine/core'
+import { Box, Center, Container, Group, Image, Stack, Title } from '@mantine/core'
 import { TSubscriptionPagePlatformKey } from '@remnawave/subscription-page-types'
+
 import {
     AccordionBlockRenderer,
     CardsBlockRenderer,
@@ -12,13 +13,9 @@ import {
     SubscriptionLinkWidget,
     TimelineBlockRenderer
 } from '@widgets/main'
-
-import { Page } from '@shared/ui'
-import { LanguagePicker } from '@shared/ui/language-picker/language-picker.shared'
-
 import { useAppConfig, useAppConfigStoreActions, useCurrentLang } from '@entities/app-config-store'
-
-import classes from './main.page.module.css'
+import { LanguagePicker } from '@shared/ui/language-picker/language-picker.shared'
+import { Page, RemnawaveLogo } from '@shared/ui'
 
 interface IMainPageComponentProps {
     isMobile: boolean
@@ -44,24 +41,14 @@ export const MainPageComponent = ({ isMobile, platform }: IMainPageComponentProp
     const currentLang = useCurrentLang()
     const { setLanguage } = useAppConfigStoreActions()
 
-    const pageCopy =
-        currentLang === 'ru'
-            ? {
-                  brandSubtitle: 'Защищённое подключение',
-                  privacyTitle: 'Ваша персональная ссылка',
-                  privacyText:
-                      'Откройте её на устройстве, которое хотите подключить. Не передавайте ссылку посторонним.',
-                  footer: 'HAMVPN помогает оставаться на связи без сложных настроек'
-              }
-            : {
-                  brandSubtitle: 'Secure connection',
-                  privacyTitle: 'Your personal link',
-                  privacyText:
-                      'Open it on the device you want to connect. Do not share this link with anyone.',
-                  footer: 'HAMVPN keeps you connected without complicated setup'
-              }
-
     const brandName = config.brandingSettings.title
+    let hasCustomLogo = !!config.brandingSettings.logoUrl
+
+    if (hasCustomLogo) {
+        if (config.brandingSettings.logoUrl.includes('docs.rw')) {
+            hasCustomLogo = false
+        }
+    }
 
     const hasPlatformApps: Record<TSubscriptionPagePlatformKey, boolean> = {
         ios: Boolean(config.platforms.ios?.apps.length),
@@ -80,21 +67,32 @@ export const MainPageComponent = ({ isMobile, platform }: IMainPageComponentProp
 
     return (
         <Page>
-            <Box className="header-wrapper" component="header" py="md">
-                <Container maw={920} px={{ base: 'md', sm: 'lg', md: 'xl' }}>
+            <Box className="header-wrapper" py="md">
+                <Container maw={1200} px={{ base: 'md', sm: 'lg', md: 'xl' }}>
                     <Group justify="space-between">
                         <Group gap="sm" style={{ userSelect: 'none' }} wrap="nowrap">
-                            <Box className={classes.logoShell}>
-                                <Image alt="HAMVPN" fit="contain" src="/assets/hamvpn-mascot.png" />
-                            </Box>
-                            <Stack gap={0}>
-                                <Title c="white" fw={700} order={4} size="lg">
-                                    {brandName}
-                                </Title>
-                                <Text className={classes.brandSubtitle} size="xs">
-                                    {pageCopy.brandSubtitle}
-                                </Text>
-                            </Stack>
+                            {hasCustomLogo ? (
+                                <Image
+                                    alt="logo"
+                                    fit="contain"
+                                    src={config.brandingSettings.logoUrl}
+                                    style={{
+                                        width: '32px',
+                                        height: '32px',
+                                        flexShrink: 0
+                                    }}
+                                />
+                            ) : (
+                                <RemnawaveLogo c="cyan" size={32} />
+                            )}
+                            <Title
+                                c={hasCustomLogo ? 'white' : 'cyan'}
+                                fw={700}
+                                order={4}
+                                size="lg"
+                            >
+                                {brandName}
+                            </Title>
                         </Group>
 
                         <SubscriptionLinkWidget
@@ -106,27 +104,15 @@ export const MainPageComponent = ({ isMobile, platform }: IMainPageComponentProp
             </Box>
 
             <Container
-                maw={920}
-                className={classes.mainContainer}
+                maw={1200}
                 px={{ base: 'md', sm: 'lg', md: 'xl' }}
                 py="xl"
                 style={{ position: 'relative', zIndex: 1 }}
             >
-                <Stack gap={isMobile ? 'lg' : 'xl'}>
+                <Stack gap="xl">
                     {SubscriptionInfoBlockRenderer && (
                         <SubscriptionInfoBlockRenderer isMobile={isMobile} />
                     )}
-
-                    <Box className={classes.privacyNote}>
-                        <Stack gap={3}>
-                            <Text className={classes.privacyTitle} fw={650} size="sm">
-                                {pageCopy.privacyTitle}
-                            </Text>
-                            <Text className={classes.privacyText} size="sm">
-                                {pageCopy.privacyText}
-                            </Text>
-                        </Stack>
-                    </Box>
 
                     {atLeastOnePlatformApp && (
                         <InstallationGuideConnector
@@ -141,17 +127,12 @@ export const MainPageComponent = ({ isMobile, platform }: IMainPageComponentProp
 
                     <RawKeysWidget isMobile={isMobile} />
 
-                    <Center className={classes.footer}>
-                        <Stack align="center" gap="sm">
-                            <Text c="dimmed" size="xs" ta="center">
-                                {pageCopy.footer}
-                            </Text>
-                            <LanguagePicker
-                                currentLang={currentLang}
-                                locales={config.locales}
-                                onLanguageChange={setLanguage}
-                            />
-                        </Stack>
+                    <Center>
+                        <LanguagePicker
+                            currentLang={currentLang}
+                            locales={config.locales}
+                            onLanguageChange={setLanguage}
+                        />
                     </Center>
                 </Stack>
             </Container>
