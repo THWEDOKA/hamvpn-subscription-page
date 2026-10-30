@@ -31,6 +31,16 @@ def with_tls12(text):
     return text[:match.start()]+line+text[match.end():] if match else text.rstrip()+'\n'+line+'\n'
 
 
+def dns_only_gos(text):
+    needle='    @notCloudflare not remote_ip '
+    if '@notCloudflare {\n        not host gos.hamgos.com' in text:return text
+    if text.count(needle)!=1:raise ValueError('Unexpected Caddy access policy')
+    lines=text.splitlines()
+    index=next(i for i,line in enumerate(lines) if line.startswith(needle))
+    lines[index]='    @notCloudflare {\n        not host gos.hamgos.com\n        '+lines[index].strip().removeprefix('@notCloudflare ')+'\n    }'
+    return '\n'.join(lines)+'\n'
+
+
 def run(*args):return subprocess.run(args,check=True,cwd=ROOT,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 def digest(path):return hashlib.sha256(path.read_bytes()).hexdigest() if path.exists() else None
 
