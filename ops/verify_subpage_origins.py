@@ -1,6 +1,6 @@
 """Verify every subscription origin with normal hostname/TLS validation.
 
-Use only an operation-owned temporary account. Do not print or commit its URL,
+Use only an operation-owned temporary account or the dedicated monitoring probe. Do not print or commit its URL,
 cookies, HTML or session data. Production mirror caches must be checked one by
 one; DNS round-robin is not a reliable release check.
 """
@@ -14,6 +14,8 @@ import socket
 import subprocess
 from urllib.parse import urlsplit
 
+from rabbithole_ios import APP_STORE_URL
+
 
 def script_paths(html):
     return re.findall(r'<script[^>]+src=[\"\']([^\"\']+)', html)
@@ -21,9 +23,13 @@ def script_paths(html):
 
 def validate_ios(config):
     apps = config['platforms']['ios']['apps']
-    matches = [app for app in apps if app.get('name', '').casefold() == 'vpnet']
-    if len(matches) != 1 or not matches[0].get('blocks'):
-        raise ValueError('Expected exactly one usable VPNET card')
+    matches = [app for app in apps if app.get('name', '').casefold() == 'rabbithole']
+    if len(matches) != 1 or any(a.get('name', '').casefold() == 'vpnet' for a in apps):
+        raise ValueError('Expected exactly one RabbitHole card and no VPNET card')
+    buttons = [button for block in matches[0].get('blocks', []) for button in block.get('buttons', [])]
+    for kind, link in [('external', APP_STORE_URL), ('copyButton', '{{SUBSCRIPTION_LINK}}')]:
+        if not any(b.get('type') == kind and b.get('link') == link for b in buttons):
+            raise ValueError('Expected RabbitHole installation and subscription-copy buttons')
     return [app['name'] for app in apps]
 
 
